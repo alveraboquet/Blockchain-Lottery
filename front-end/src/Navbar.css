@@ -1,0 +1,25 @@
+.navbarContainer{
+    margin: 0px;
+    padding: 0px;
+}
+.navbar{
+    display: flex;
+    justify-content: space-around;
+    align-items: center;
+    background-color: #150485;
+    color: #03C4A1;
+}
+.connectBtn{
+    padding: 5px;
+    border: none;
+    border-radius: 10px;
+    font-size: 20px;
+    cursor: pointer;
+    background-color: #03C4A1;
+}
+.navAccountNumber{
+    color: white;
+}
+.usdtBalance{
+    font-weight: 700;
+}

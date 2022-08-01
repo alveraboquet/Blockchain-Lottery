@@ -1,0 +1,27 @@
+.mainContainer{
+    padding: 0px;
+    display: flex;
+    flex-direction: column;
+    text-align: center;
+}
+.buyTicketButton{
+    font-size: 20px;
+    border: none;
+    border-radius: 10px;
+    padding: 5px;
+    cursor: pointer;
+    font-weight: 400;
+    background-color: #03C4A1;
+}
+.lotteryButtons{
+    display: flex;
+    justify-content: center;
+    gap: 5px;
+
+}
+.lotteryButtons p{
+    font-weight: 900;
+}
+.TnC{
+    font-size: larger;
+}
