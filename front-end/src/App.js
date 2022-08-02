@@ -125,9 +125,9 @@ function App() {
   useEffect(() => {
     connectWallet();
     console.log("connect executed");
-    console.log(ticketNumber);
+    // console.log(ticketNumber);
     // eslint-disable-next-line
-  }, [ticketNumber]);
+  }, []);
 
   const approve = async () => {
     usdtContract.approve(BlockchainLotteryAddress, amount);
