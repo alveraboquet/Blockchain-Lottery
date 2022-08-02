@@ -86,11 +86,13 @@ function App() {
       let _participantsTicket = await tempBlockchainLotteryContract.addressAndTickets(await tempSigner.getAddress())
       let alltickets = await tempBlockchainLotteryContract.getAllTickets()
       console.log(alltickets)
-      if (_participants.indexOf(await tempSigner.getAddress()) === -1) {
+      // eslint-disable-next-line
+      if (_participants.indexOf(await tempSigner.getAddress()) == -1) {
         setTicketNumber(-1)
       } else {
         alltickets.map((item)=>{
-          if(item.toNumber()===_participantsTicket){
+          // eslint-disable-next-line
+          if(item.toNumber()==_participantsTicket){
             setTicketNumber(_participantsTicket.toNumber())
           }else{
             setTicketNumber(-1)

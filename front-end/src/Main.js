@@ -3,9 +3,9 @@ import "./Main.css";
 function Main(props) {
     const [time, setTime] = useState(null)
     const updateTime = ()=>{
-        setTime(new Date().toTimeString())
+        setTime(new Date().toLocaleTimeString())
     }
-    setInterval(updateTime,1000)
+    setInterval(updateTime)
     return (
         <div className="mainContainer">
             <div className="div1">
