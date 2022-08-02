@@ -26,9 +26,6 @@ function App() {
   const BlockchainLotteryAbi = blockchainlottery.abi;
   const connectWallet = async () => {
     if (window.ethereum) {
-      let _accounts = await window.ethereum.request({
-        method: "eth_requestAccounts",
-      });
       let chainId = await window.ethereum.request({method: "net_version"})
       console.log(chainId)
       //eslint-disable-next-line
@@ -37,7 +34,12 @@ function App() {
       }else{
         setNetworkErr(null)
       }
+
+      let _accounts = await window.ethereum.request({
+        method: "eth_requestAccounts",
+      });
       setAccounts(_accounts);
+
       const tempProvider = new ethers.providers.Web3Provider(window.ethereum);
       const tempSigner = tempProvider.getSigner();
       const tempBlockchainLotteryContract = new ethers.Contract(
