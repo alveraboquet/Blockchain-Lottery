@@ -1,10 +1,16 @@
-import React from "react";
+import React,{useState} from "react";
 import "./Main.css";
 function Main(props) {
+    const [time, setTime] = useState(null)
+    const updateTime = ()=>{
+        setTime(new Date().toLocaleTimeString())
+    }
+    setInterval(updateTime,1000)
     return (
         <div className="mainContainer">
             <div className="div1">
                 {props.isOn===false?<h1 style={{ color:"red" }}>Deposite Period is over</h1>:null}
+                <h1>{time}</h1>
                 <h1>Current Price Pool {props.pricePool} {props.symbol}</h1>
                 <h2>Lottery at every Night 12:00</h2>
                 <div className="lotteryButtons">

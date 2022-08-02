@@ -22,7 +22,7 @@ function App() {
   // const USDTAddress = "0x7FFB3d637014488b63fb9858E279385685AFc1e2"; //Polygon Mainnet Address For USDT Tokens
   // const USDTAddress = "0xc1ef3d10d02F27Fe16052Aa463DB2C27a7604660"; //Polygon Mumbai Address For USDT Tokens
   const USDTAbi = usdtabi.abi;
-  const BlockchainLotteryAddress = "0x29F411Ce98E2339ED6F3AbA6063ef90f188F98cb"
+  const BlockchainLotteryAddress = "0xC330332351858518Ff61C7d4930780B0d260EDEe"
   const BlockchainLotteryAbi = blockchainlottery.abi;
   const connectWallet = async () => {
     if (window.ethereum) {
@@ -75,7 +75,7 @@ function App() {
 
       console.log(tempBlockchainLotteryContract);
       let _lastWinner = await tempBlockchainLotteryContract.lastWinner();
-      setLastWinner(_lastWinner);
+      setLastWinner(_lastWinner.toNumber());
 
       let _isOn = await tempBlockchainLotteryContract.isOn()
       console.log(_isOn)
@@ -90,11 +90,12 @@ function App() {
         setTicketNumber(-1)
       } else {
         alltickets.map((item)=>{
-          if(item.toNumber()==_participantsTicket){
+          if(item.toNumber()===_participantsTicket){
             setTicketNumber(_participantsTicket.toNumber())
           }else{
             setTicketNumber(-1)
           }
+          return null
         })
       }
 

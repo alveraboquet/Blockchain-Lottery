@@ -11,7 +11,7 @@ console.log(Provider.connection)
 const Wallet = new ethers.Wallet("ef8ab63dc2488da4a1f2ee779f92aa645b87453df592c616f2dc9a4f8811ba80",Provider)
 console.log(Wallet.address)
 
-const blockchainLotteryAddress = "0x29F411Ce98E2339ED6F3AbA6063ef90f188F98cb";
+const blockchainLotteryAddress = "0xC330332351858518Ff61C7d4930780B0d260EDEe";
 const blockchainLotteryAbi = [
     {
       "inputs": [],
@@ -145,9 +145,9 @@ const blockchainLotteryAbi = [
       "name": "lastWinner",
       "outputs": [
         {
-          "internalType": "address",
+          "internalType": "uint256",
           "name": "",
-          "type": "address"
+          "type": "uint256"
         }
       ],
       "stateMutability": "view",
