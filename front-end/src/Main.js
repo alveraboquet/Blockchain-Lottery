@@ -3,7 +3,7 @@ import "./Main.css";
 function Main(props) {
     const [time, setTime] = useState(null)
     const updateTime = ()=>{
-        setTime(new Date().toLocaleTimeString())
+        setTime(new Date().toTimeString())
     }
     setInterval(updateTime,1000)
     return (
