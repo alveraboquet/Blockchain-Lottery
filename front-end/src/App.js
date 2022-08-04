@@ -11,10 +11,11 @@ function App() {
   const [pricePool, setPricePool] = useState(null);
   const [usdtBalance, setUsdtBalance] = useState(null);
   const [lastWinner, setLastWinner] = useState(null);
-  const [isOn, setIsOn] = useState(null)
+  const [isOn, setIsOn] = useState(null);
   const [usdtContract, setUsdtContract] = useState(null);
-  const [blockchainLotteryContract, setBlockchainLotteryContract] = useState(null);
-  const [networkErr, setNetworkErr] = useState(null)
+  const [blockchainLotteryContract, setBlockchainLotteryContract] =
+    useState(null);
+  const [networkErr, setNetworkErr] = useState(null);
   const [amount, setAmount] = useState(null);
   const [symbol, setSymbol] = useState(null);
 
@@ -22,17 +23,17 @@ function App() {
   // const USDTAddress = "0x7FFB3d637014488b63fb9858E279385685AFc1e2"; //Polygon Mainnet Address For USDT Tokens
   // const USDTAddress = "0xc1ef3d10d02F27Fe16052Aa463DB2C27a7604660"; //Polygon Mumbai Address For USDT Tokens
   const USDTAbi = usdtabi.abi;
-  const BlockchainLotteryAddress = "0xC330332351858518Ff61C7d4930780B0d260EDEe"
+  const BlockchainLotteryAddress = "0xC330332351858518Ff61C7d4930780B0d260EDEe";
   const BlockchainLotteryAbi = blockchainlottery.abi;
   const connectWallet = async () => {
     if (window.ethereum) {
-      let chainId = await window.ethereum.request({ method: "net_version" })
-      console.log(chainId)
+      let chainId = await window.ethereum.request({ method: "net_version" });
+      console.log(chainId);
       //eslint-disable-next-line
       if (chainId != 80001) {
-        setNetworkErr("Please change network to polygon")
+        setNetworkErr("Please change network to polygon");
       } else {
-        setNetworkErr(null)
+        setNetworkErr(null);
       }
       let _accounts = await window.ethereum.request({
         method: "eth_requestAccounts",
@@ -51,7 +52,11 @@ function App() {
       setAmount(tempAmount);
       const USDTAddress = await tempBlockchainLotteryContract.USDTAddress();
       // setUsdtAddress(USDTAddress)
-      const tempUSDTContract = new ethers.Contract(USDTAddress, USDTAbi, tempSigner);
+      const tempUSDTContract = new ethers.Contract(
+        USDTAddress,
+        USDTAbi,
+        tempSigner
+      );
       setUsdtContract(tempUSDTContract);
 
       let tempdecimals = await tempUSDTContract.decimals();
@@ -59,7 +64,6 @@ function App() {
 
       let tempSymbol = await tempUSDTContract.symbol();
       setSymbol(tempSymbol);
-
 
       let tempPricePool = await tempUSDTContract.balanceOf(
         BlockchainLotteryAddress
@@ -77,34 +81,37 @@ function App() {
       let _lastWinner = await tempBlockchainLotteryContract.lastWinner();
       setLastWinner(_lastWinner.toNumber());
 
-      let _isOn = await tempBlockchainLotteryContract.isOn()
-      console.log(_isOn)
-      setIsOn(_isOn)
-
-      let _participants = await tempBlockchainLotteryContract.getAllParticipants();
-      console.log(_participants);
-      let _participantsTicket = await tempBlockchainLotteryContract.addressAndTickets(await tempSigner.getAddress())
-      let alltickets = await tempBlockchainLotteryContract.getAllTickets()
-      console.log(alltickets)
-      // eslint-disable-next-line
-      if (_participants.indexOf(await tempSigner.getAddress()) == -1) {
-        setTicketNumber(-1)
+      let _isOn = await tempBlockchainLotteryContract.isOn();
+      console.log(_isOn);
+      setIsOn(_isOn);
+      if (_isOn) {
+        setTicketNumber(-1);
       } else {
-        alltickets.map((item)=>{
-          // eslint-disable-next-line
-          if(item.toNumber()==_participantsTicket){
-            setTicketNumber(_participantsTicket.toNumber())
-          }else{
-            setTicketNumber(-1)
-          }
-          return null
-        })
+        let _participants = await tempBlockchainLotteryContract.getAllParticipants();
+        console.log(_participants);
+
+        let _participantsTicket = await tempBlockchainLotteryContract.addressAndTickets(await tempSigner.getAddress());
+        let alltickets = await tempBlockchainLotteryContract.getAllTickets();
+        console.log(alltickets);
+        
+        // eslint-disable-next-line
+        if (_participants.indexOf(await tempSigner.getAddress()) == -1) {
+          setTicketNumber(-1);
+        } else {
+          alltickets.map((item) => {
+            // eslint-disable-next-line
+            if (item.toNumber() == _participantsTicket) {
+              setTicketNumber(_participantsTicket.toNumber());
+            } else {
+              setTicketNumber(-1);
+            }
+            return null;
+          });
+        }
       }
-
     } else {
-      setNetworkErr("Please install Metamask")
+      setNetworkErr("Please install Metamask");
     }
-
 
     window.ethereum.on("accountsChanged", function (accounts) {
       connectWallet();
@@ -149,7 +156,9 @@ function App() {
         symbol={symbol}
         isOn={isOn}
       />
-      {networkErr ? <h1 style={{ textAlign: "center", color: "red" }}>{networkErr}</h1> : null}
+      {networkErr ? (
+        <h1 style={{ textAlign: "center", color: "red" }}>{networkErr}</h1>
+      ) : null}
       {/* <h1>Admin</h1>
       <button onClick={setUsdtAddress}>Update USDT Address</button>
       <button onClick={setFeeAccount}>set fee account</button>

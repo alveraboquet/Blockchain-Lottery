@@ -403,4 +403,17 @@ const news = async () => {
   console.log(tx)
 }
 
+// const cancel = async ()=>{
+//   const tx = {
+//     to:"0xC330332351858518Ff61C7d4930780B0d260EDEe",
+//     nonce: 121,
+//     gasLimit: 60000,
+//     gasPrice:ethers.utils.parseUnits("100","gwei")
+//   }
+//   const rs = await Wallet.sendTransaction(tx)
+// }
+
+
 news()
+
+// cancel()
