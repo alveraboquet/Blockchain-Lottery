@@ -396,7 +396,9 @@ const blockchainLotteryAbi = [
   ]
 const blockchainLotteryContract = new ethers.Contract(blockchainLotteryAddress, blockchainLotteryAbi, Wallet)
 console.log(process.env.REACT_APP_BLOCKCHAIN_LOTTERY_ADDRESS)
-
+const sleep = (milliseconds) => {
+	return new Promise(resolve => setTimeout(resolve, milliseconds))
+}
 const news =async ()=>{
 	let i = await blockchainLotteryContract.isOn()
 	console.log(i)
@@ -405,31 +407,33 @@ const news =async ()=>{
 news()
 // 0 55 23 * * * 
 // 0 0,15,35,50 * * * *
-let assigner = cron.schedule("0 0,15,35,50 * * * *", async function() {
+let assigner = cron.schedule("0 55 23 * * *", async function() {
   let isOn = await blockchainLotteryContract.isOn()
   if(isOn){
     let gasprice = await Provider.getGasPrice()
-    console.log(gasprice.toNumber())
+    console.log("Gas Price: "+gasprice.toNumber())
     console.log(new Date().toLocaleTimeString())
     let tx = await blockchainLotteryContract.assignTicket({gasPrice:gasprice.toNumber()})
     console.log(tx)
+    let reciept = await tx.wait()
+    console.log("Before Wait "+new Date().toLocaleTimeString())
+    
+    await sleep(300000)
+    console.log("After wait "+new Date().toLocaleTimeString())
+    isOn = await blockchainLotteryContract.isOn()
+    if(isOn===false){
+      console.log(new Date().toLocaleTimeString())
+      let gasprice = await Provider.getGasPrice()
+      console.log("Gas Price: "+gasprice.toNumber())
+      console.log(new Date().toLocaleTimeString())
+      let tx = await blockchainLotteryContract.getLottery({gasPrice:gasprice.toNumber()})
+      console.log(tx)
+    }
   }
 });
 
 // 0 0 0 * * * 
 // 0 10,25,40,55 * * * *
-let lotteryopener = cron.schedule("0 10,25,40,55 * * * *", async function() {
-	let isOn = await blockchainLotteryContract.isOn()
-	console.log(isOn)
-	console.log(new Date().toLocaleTimeString())
-  if(isOn===false){
-    let gasprice = await Provider.getGasPrice()
-    console.log(gasprice.toNumber())
-    console.log(new Date().toLocaleTimeString())
-    let tx = await blockchainLotteryContract.getLottery({gasPrice:gasprice.toNumber()})
-    console.log(tx)
-  }
-});
 
 const app = express();
 
@@ -438,7 +442,6 @@ app.get("/*", (req, res) => res.sendFile(path.join(__dirname, "./index.html")));
 
 const PORT = process.env.PORT || 3000;
 
-lotteryopener.start()
 assigner.start()
 
 app.listen(PORT, () => console.log(`Server started on port ${PORT}`));
