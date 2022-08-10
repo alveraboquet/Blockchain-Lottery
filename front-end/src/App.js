@@ -30,7 +30,7 @@ function App() {
       let chainId = await window.ethereum.request({ method: "net_version" });
       console.log(chainId);
       //eslint-disable-next-line
-      if (chainId != 80001) {
+      if (chainId != 137) {
         setNetworkErr("Please change network to polygon");
       } else {
         setNetworkErr(null);
