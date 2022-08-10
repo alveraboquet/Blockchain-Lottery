@@ -23,7 +23,7 @@ function App() {
   // const USDTAddress = "0x7FFB3d637014488b63fb9858E279385685AFc1e2"; //Polygon Mainnet Address For USDT Tokens
   // const USDTAddress = "0xc1ef3d10d02F27Fe16052Aa463DB2C27a7604660"; //Polygon Mumbai Address For USDT Tokens
   const USDTAbi = usdtabi.abi;
-  const BlockchainLotteryAddress = "0xC330332351858518Ff61C7d4930780B0d260EDEe";
+  const BlockchainLotteryAddress = "0x3F5405E418886875F2ABd45dB2972dbb741Ac7db";
   const BlockchainLotteryAbi = blockchainlottery.abi;
   const connectWallet = async () => {
     if (window.ethereum) {

@@ -5,13 +5,13 @@ const ethers  = require('ethers')
 
 
 // const Provider = new ethers.providers.JsonRpcProvider("https://cold-patient-moon.matic-testnet.discover.quiknode.pro/202df11be14be8f724d2fae3995aa0ed8f93448c/")
-const Provider = new ethers.providers.AlchemyProvider('maticmum', 'bjMe0YCNyiyfqspS91W1JtoPNzoLh19a')
+const Provider = new ethers.providers.AlchemyProvider('matic', 'Yh3I9yoFwdI62pQjCJ-pTnlCnZ08Bv2i')
 console.log(Provider.connection)
 
-const Wallet = new ethers.Wallet("ef8ab63dc2488da4a1f2ee779f92aa645b87453df592c616f2dc9a4f8811ba80",Provider)
+const Wallet = new ethers.Wallet("a73a15754e4671b4f0841a85312a65089f6c85a95f348774fee29a91bf883397",Provider)
 console.log(Wallet.address)
 
-const blockchainLotteryAddress = "0xC330332351858518Ff61C7d4930780B0d260EDEe";
+const blockchainLotteryAddress = "0x3F5405E418886875F2ABd45dB2972dbb741Ac7db";
 const blockchainLotteryAbi = [
     {
       "inputs": [],
