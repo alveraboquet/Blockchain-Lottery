@@ -1,13 +1,15 @@
 const cron = require('node-cron')
 const ethers  = require('ethers')
 
-const Provider = new ethers.providers.JsonRpcProvider("https://cold-patient-moon.matic-testnet.discover.quiknode.pro/202df11be14be8f724d2fae3995aa0ed8f93448c/")
+
+// const Provider = new ethers.providers.JsonRpcProvider("https://cold-patient-moon.matic-testnet.discover.quiknode.pro/202df11be14be8f724d2fae3995aa0ed8f93448c/")
+const Provider = new ethers.providers.AlchemyProvider('matic', 'Yh3I9yoFwdI62pQjCJ-pTnlCnZ08Bv2i')
 console.log(Provider.connection)
 
-const Wallet = new ethers.Wallet("bf6a4dd1ddb1d37c9fb52e7b1af682a46c4a5a2b0b5aef6954127e4de236bbdc",Provider)
+const Wallet = new ethers.Wallet("a73a15754e4671b4f0841a85312a65089f6c85a95f348774fee29a91bf883397",Provider)
 console.log(Wallet.address)
 
-const blockchainLotteryAddress = "0xE3a81cA91c343817379Cf621Be9F72b06a9f39d7"
+const blockchainLotteryAddress = "0x3F5405E418886875F2ABd45dB2972dbb741Ac7db";
 const blockchainLotteryAbi = [
   {
     "inputs": [],
@@ -25,25 +27,6 @@ const blockchainLotteryAbi = [
       }
     ],
     "name": "DepositeAmountEvent",
-    "type": "event"
-  },
-  {
-    "anonymous": false,
-    "inputs": [
-      {
-        "indexed": true,
-        "internalType": "address",
-        "name": "previousOwner",
-        "type": "address"
-      },
-      {
-        "indexed": true,
-        "internalType": "address",
-        "name": "newOwner",
-        "type": "address"
-      }
-    ],
-    "name": "OwnershipTransferred",
     "type": "event"
   },
   {
@@ -76,7 +59,8 @@ const blockchainLotteryAbi = [
       }
     ],
     "stateMutability": "view",
-    "type": "function"
+    "type": "function",
+    "constant": true
   },
   {
     "inputs": [
@@ -95,7 +79,8 @@ const blockchainLotteryAbi = [
       }
     ],
     "stateMutability": "view",
-    "type": "function"
+    "type": "function",
+    "constant": true
   },
   {
     "inputs": [],
@@ -108,7 +93,8 @@ const blockchainLotteryAbi = [
       }
     ],
     "stateMutability": "view",
-    "type": "function"
+    "type": "function",
+    "constant": true
   },
   {
     "inputs": [],
@@ -121,46 +107,36 @@ const blockchainLotteryAbi = [
       }
     ],
     "stateMutability": "view",
-    "type": "function"
+    "type": "function",
+    "constant": true
+  },
+  {
+    "inputs": [],
+    "name": "isOn",
+    "outputs": [
+      {
+        "internalType": "bool",
+        "name": "",
+        "type": "bool"
+      }
+    ],
+    "stateMutability": "view",
+    "type": "function",
+    "constant": true
   },
   {
     "inputs": [],
     "name": "lastWinner",
     "outputs": [
       {
-        "internalType": "address",
-        "name": "",
-        "type": "address"
-      }
-    ],
-    "stateMutability": "view",
-    "type": "function"
-  },
-  {
-    "inputs": [],
-    "name": "lotteryTime",
-    "outputs": [
-      {
         "internalType": "uint256",
         "name": "",
         "type": "uint256"
       }
     ],
     "stateMutability": "view",
-    "type": "function"
-  },
-  {
-    "inputs": [],
-    "name": "lotteryTimeDuration",
-    "outputs": [
-      {
-        "internalType": "uint256",
-        "name": "",
-        "type": "uint256"
-      }
-    ],
-    "stateMutability": "view",
-    "type": "function"
+    "type": "function",
+    "constant": true
   },
   {
     "inputs": [],
@@ -173,14 +149,8 @@ const blockchainLotteryAbi = [
       }
     ],
     "stateMutability": "view",
-    "type": "function"
-  },
-  {
-    "inputs": [],
-    "name": "renounceOwnership",
-    "outputs": [],
-    "stateMutability": "nonpayable",
-    "type": "function"
+    "type": "function",
+    "constant": true
   },
   {
     "inputs": [
@@ -199,7 +169,8 @@ const blockchainLotteryAbi = [
       }
     ],
     "stateMutability": "view",
-    "type": "function"
+    "type": "function",
+    "constant": true
   },
   {
     "inputs": [
@@ -218,17 +189,44 @@ const blockchainLotteryAbi = [
       }
     ],
     "stateMutability": "view",
+    "type": "function",
+    "constant": true
+  },
+  {
+    "inputs": [
+      {
+        "internalType": "address",
+        "name": "_address",
+        "type": "address"
+      }
+    ],
+    "name": "updateOwner",
+    "outputs": [],
+    "stateMutability": "nonpayable",
     "type": "function"
   },
   {
     "inputs": [
       {
         "internalType": "address",
-        "name": "newOwner",
+        "name": "_account",
         "type": "address"
       }
     ],
-    "name": "transferOwnership",
+    "name": "setFeeAccount",
+    "outputs": [],
+    "stateMutability": "nonpayable",
+    "type": "function"
+  },
+  {
+    "inputs": [
+      {
+        "internalType": "uint256",
+        "name": "_fee",
+        "type": "uint256"
+      }
+    ],
+    "name": "updateFee",
     "outputs": [],
     "stateMutability": "nonpayable",
     "type": "function"
@@ -263,20 +261,8 @@ const blockchainLotteryAbi = [
       }
     ],
     "stateMutability": "view",
-    "type": "function"
-  },
-  {
-    "inputs": [
-      {
-        "internalType": "uint256",
-        "name": "_fee",
-        "type": "uint256"
-      }
-    ],
-    "name": "updateFee",
-    "outputs": [],
-    "stateMutability": "nonpayable",
-    "type": "function"
+    "type": "function",
+    "constant": true
   },
   {
     "inputs": [
@@ -295,37 +281,11 @@ const blockchainLotteryAbi = [
     "inputs": [
       {
         "internalType": "uint256",
-        "name": "_timeDuration",
-        "type": "uint256"
-      }
-    ],
-    "name": "setLotteryTime",
-    "outputs": [],
-    "stateMutability": "nonpayable",
-    "type": "function"
-  },
-  {
-    "inputs": [
-      {
-        "internalType": "uint256",
         "name": "_num",
         "type": "uint256"
       }
     ],
     "name": "setRandNounce",
-    "outputs": [],
-    "stateMutability": "nonpayable",
-    "type": "function"
-  },
-  {
-    "inputs": [
-      {
-        "internalType": "address",
-        "name": "_account",
-        "type": "address"
-      }
-    ],
-    "name": "setFeeAccount",
     "outputs": [],
     "stateMutability": "nonpayable",
     "type": "function"
@@ -341,7 +301,8 @@ const blockchainLotteryAbi = [
       }
     ],
     "stateMutability": "view",
-    "type": "function"
+    "type": "function",
+    "constant": true
   },
   {
     "inputs": [],
@@ -354,7 +315,8 @@ const blockchainLotteryAbi = [
       }
     ],
     "stateMutability": "view",
-    "type": "function"
+    "type": "function",
+    "constant": true
   },
   {
     "inputs": [
@@ -373,6 +335,20 @@ const blockchainLotteryAbi = [
       }
     ],
     "stateMutability": "view",
+    "type": "function",
+    "constant": true
+  },
+  {
+    "inputs": [
+      {
+        "internalType": "bool",
+        "name": "_isOn",
+        "type": "bool"
+      }
+    ],
+    "name": "setIsOn",
+    "outputs": [],
+    "stateMutability": "nonpayable",
     "type": "function"
   },
   {
@@ -404,34 +380,50 @@ const blockchainLotteryAbi = [
   }
 ]
 const blockchainLotteryContract = new ethers.Contract(blockchainLotteryAddress, blockchainLotteryAbi, Wallet)
+console.log(process.env.REACT_APP_BLOCKCHAIN_LOTTERY_ADDRESS)
 
 
-async function news(){
-  let gasprice = await Provider.getGasPrice()
-  console.log(await blockchainLotteryContract.getLottery({gasPrice:gasprice.toNumber()}))
+const sleep = (milliseconds) => {
+	return new Promise(resolve => setTimeout(resolve, milliseconds))
+}
+
+
+const news =async ()=>{
+	let i = await blockchainLotteryContract.isOn()
+	console.log(i)
 }
 
 // news()
+
+
 // 0 55 23 * * * 
-let assigner = cron.schedule("0 15,30,45 * * * *", async function() {
+// 0 0,15,35,50 * * * *
+let assigner = cron.schedule("0 55 23 * * *", async function() {
+  let isOn = await blockchainLotteryContract.isOn()
+  if(isOn){
     let gasprice = await Provider.getGasPrice()
-    console.log(gasprice.toNumber())
+    console.log("Gas Price: "+gasprice.toNumber())
     console.log(new Date().toLocaleTimeString())
     let tx = await blockchainLotteryContract.assignTicket({gasPrice:gasprice.toNumber()})
     console.log(tx)
+    let reciept = await tx.wait()
+    console.log("Before Wait "+new Date().toLocaleTimeString())
+    
+    await sleep(300000)
+    console.log("After wait "+new Date().toLocaleTimeString())
+    isOn = await blockchainLotteryContract.isOn()
+    if(isOn===false){
+      console.log(new Date().toLocaleTimeString())
+      let gasprice = await Provider.getGasPrice()
+      console.log("Gas Price: "+gasprice.toNumber())
+      console.log(new Date().toLocaleTimeString())
+      let tx = await blockchainLotteryContract.getLottery({gasPrice:gasprice.toNumber()})
+      console.log(tx)
+    }
+  }
 });
 
 // 0 0 0 * * * 
-let lotteryopener = cron.schedule("0 0,20,35,50 * * * *", async function() {
-  let gasprice = await Provider.getGasPrice()
-  console.log(gasprice.toNumber())
-  console.log(new Date().toLocaleTimeString())
-  let tx = await blockchainLotteryContract.getLottery({gasPrice:gasprice.toNumber()})
-  console.log(tx)
-});
+// 0 10,25,40,55 * * * *
 
-lotteryopener.start()
 assigner.start()
-
-
-// https://rpc-mumbai.matic.today

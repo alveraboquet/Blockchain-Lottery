@@ -23,14 +23,16 @@ function App() {
   // const USDTAddress = "0x7FFB3d637014488b63fb9858E279385685AFc1e2"; //Polygon Mainnet Address For USDT Tokens
   // const USDTAddress = "0xc1ef3d10d02F27Fe16052Aa463DB2C27a7604660"; //Polygon Mumbai Address For USDT Tokens
   const USDTAbi = usdtabi.abi;
-  const BlockchainLotteryAddress = "0x3F5405E418886875F2ABd45dB2972dbb741Ac7db";
+  const BlockchainLotteryAddress = "0xB0D69414E82bd0366b99EEaD35e8364c9f20537c";
   const BlockchainLotteryAbi = blockchainlottery.abi;
   const connectWallet = async () => {
     if (window.ethereum) {
       let chainId = await window.ethereum.request({ method: "net_version" });
       console.log(chainId);
+      //matic mainnet chain id = 137
+      //matic testnet chain id = 80001
       //eslint-disable-next-line
-      if (chainId != 137) {
+      if (chainId != 80001) {
         setNetworkErr("Please change network to polygon");
       } else {
         setNetworkErr(null);
@@ -96,17 +98,34 @@ function App() {
         
         // eslint-disable-next-line
         if (_participants.indexOf(await tempSigner.getAddress()) == -1) {
+          console.log("setting -1 due to no participants")
           setTicketNumber(-1);
         } else {
-          alltickets.map((item) => {
+          for(var i=0;i<alltickets.length;i++){
             // eslint-disable-next-line
-            if (item.toNumber() == _participantsTicket) {
+            if (alltickets[i].toNumber() == _participantsTicket) {
+              console.log("setting number")
               setTicketNumber(_participantsTicket.toNumber());
+              break
             } else {
+              console.log("setting -1 ")
               setTicketNumber(-1);
             }
-            return null;
-          });
+          }
+
+
+          // alltickets.map((item) => {
+          //   // eslint-disable-next-line
+          //   if (item.toNumber() == _participantsTicket) {
+          //     console.log("setting number")
+          //     setTicketNumber(_participantsTicket.toNumber());
+              
+          //   } else {
+          //     console.log("setting -1 ")
+          //     setTicketNumber(-1);
+          //   }
+          //   return null;
+          // });
         }
       }
     } else {
