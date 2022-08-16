@@ -23,7 +23,7 @@ function App() {
   // const USDTAddress = "0x7FFB3d637014488b63fb9858E279385685AFc1e2"; //Polygon Mainnet Address For USDT Tokens
   // const USDTAddress = "0xc1ef3d10d02F27Fe16052Aa463DB2C27a7604660"; //Polygon Mumbai Address For USDT Tokens
   const USDTAbi = usdtabi.abi;
-  const BlockchainLotteryAddress = "0xB0D69414E82bd0366b99EEaD35e8364c9f20537c";
+  const BlockchainLotteryAddress = "0x903F507A8b2887492aBA0fcEcc654b9981e4Cb58";
   const BlockchainLotteryAbi = blockchainlottery.abi;
   const connectWallet = async () => {
     if (window.ethereum) {
@@ -32,7 +32,7 @@ function App() {
       //matic mainnet chain id = 137
       //matic testnet chain id = 80001
       //eslint-disable-next-line
-      if (chainId != 80001) {
+      if (chainId != 137) {
         setNetworkErr("Please change network to polygon");
       } else {
         setNetworkErr(null);
