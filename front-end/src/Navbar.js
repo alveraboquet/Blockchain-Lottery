@@ -10,7 +10,11 @@ function Navbar(props) {
                 <img src={logo} alt="NO IMG FOUND" style={{ height:"100px", width:"100px" }}></img>
             </div>
             <div className='connectBtnContainer'>
-            {props.accounts?<p className='navAccountNumber'>{props.accounts[0]}</p>:<button onClick={props.connectWallet} className="connectBtn">Connect Wallet</button>}
+            {props.accounts?<p className='navAccountNumber'>{props.accounts[0]}</p>:
+            <div className='buttonContainers'>
+              <button onClick={props.connectWallet} className="connectBtn">Connect Metamask</button>
+              <button onClick={props.walletConnect} className="connectBtn">Wallet Connect</button>
+            </div>}
             </div>
             <div className="usdtBalance">{props.usdtBalance} {props.symbol}</div>
         </nav>

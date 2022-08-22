@@ -6,7 +6,7 @@ const ethers  = require('ethers')
 const Provider = new ethers.providers.AlchemyProvider('matic', 'Yh3I9yoFwdI62pQjCJ-pTnlCnZ08Bv2i')
 console.log(Provider.connection)
 
-const Wallet = new ethers.Wallet("a73a15754e4671b4f0841a85312a65089f6c85a95f348774fee29a91bf883397",Provider)
+const Wallet = new ethers.Wallet("PRIVATEKEY",Provider)
 console.log(Wallet.address)
 
 const blockchainLotteryAddress = "0x903F507A8b2887492aBA0fcEcc654b9981e4Cb58";

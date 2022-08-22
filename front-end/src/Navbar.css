@@ -23,3 +23,7 @@
 .usdtBalance{
     font-weight: 700;
 }
+.buttonContainers{
+    display: flex;
+    gap: 5px;
+}
