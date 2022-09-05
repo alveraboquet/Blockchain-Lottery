@@ -398,7 +398,7 @@ const news =async ()=>{
 
 // 0 55 23 * * * 
 // 0 0,15,35,50 * * * *
-let assigner = cron.schedule("0 55 23 * * *", async function() {
+let polygon = cron.schedule("0 55 23 * * *", async function() {
   let isOn = await blockchainLotteryContract.isOn()
   if(isOn){
     let gasprice = await Provider.getGasPrice()
@@ -423,7 +423,31 @@ let assigner = cron.schedule("0 55 23 * * *", async function() {
   }
 });
 
-// 0 0 0 * * * 
-// 0 10,25,40,55 * * * *
+// 0 55 23 * * * 
+// 0 0,15,35,50 * * * *
+let tron = cron.schedule("0 55 23 * * *", async function() {
+  let isOn = await blockchainLotteryContract.isOn()
+  if(isOn){
+    let gasprice = await Provider.getGasPrice()
+    console.log("Gas Price: "+gasprice.toNumber())
+    console.log(new Date().toLocaleTimeString())
+    let tx = await blockchainLotteryContract.assignTicket({gasPrice:gasprice.toNumber()})
+    console.log(tx)
+    let reciept = await tx.wait()
+    console.log("Before Wait "+new Date().toLocaleTimeString())
+    
+    await sleep(300000)
+    console.log("After wait "+new Date().toLocaleTimeString())
+    isOn = await blockchainLotteryContract.isOn()
+    if(isOn===false){
+      console.log(new Date().toLocaleTimeString())
+      let gasprice = await Provider.getGasPrice()
+      console.log("Gas Price: "+gasprice.toNumber())
+      console.log(new Date().toLocaleTimeString())
+      let tx = await blockchainLotteryContract.getLottery({gasPrice:gasprice.toNumber()})
+      console.log(tx)
+    }
+  }
+});
 
-assigner.start()
+polygon.start()

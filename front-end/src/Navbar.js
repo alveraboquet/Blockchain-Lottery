@@ -12,8 +12,9 @@ function Navbar(props) {
             <div className='connectBtnContainer'>
             {props.accounts?<p className='navAccountNumber'>{props.accounts[0]}</p>:
             <div className='buttonContainers'>
-              <button onClick={props.connectWallet} className="connectBtn">Connect Metamask</button>
+              <button onClick={props.connectWallet} className="connectBtn">Metamask</button>
               <button onClick={props.walletConnect} className="connectBtn">Wallet Connect</button>
+              <button onClick={props.tronWebConnect} className="connectBtn">Tron Link</button>
             </div>}
             </div>
             <div className="usdtBalance">{props.usdtBalance} {props.symbol}</div>
