@@ -452,7 +452,7 @@ const HttpProvider = TronWeb.providers.HttpProvider;
 const fullNode = new HttpProvider("https://api.trongrid.io");
 const solidityNode = new HttpProvider("https://api.trongrid.io");
 const eventServer = new HttpProvider("https://api.trongrid.io");
-const privateKey = "3f8d887af5065bcee0fe2584365b246fe8f45bc9d6cc8d411aa618e0ea34aaec";
+const privateKey = "PRIVATEKEY";
 const tronWeb = new TronWeb(fullNode,solidityNode,eventServer,privateKey)
 tronWeb.setHeader({"TRON-PRO-API-KEY": 'bf0bb2f6-c82f-43e6-a814-f31153b247fd'})
 const blockchainLotteryAddressTron = "TUWmgMu4PWCCiLDFQ6gmAFVRBjZQywKfrD"
