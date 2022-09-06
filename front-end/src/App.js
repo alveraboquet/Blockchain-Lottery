@@ -136,11 +136,11 @@ function App() {
         );
         setNetworkErr(null);
         // eslint-disable-next-line
-      } else if (chainId == 97) {
+      } else if (chainId == 56) {
         _BlockchainLotteryAddress =
-          "0xA9cEa9cD7DB5BB46B636296B008C913047a75E34";
+          "0x903F507A8b2887492aBA0fcEcc654b9981e4Cb58";
         setBlockchainLotteryAddress(
-          "0xA9cEa9cD7DB5BB46B636296B008C913047a75E34"
+          "0x903F507A8b2887492aBA0fcEcc654b9981e4Cb58"
         );
         setNetworkErr(null);
       } else {
@@ -267,6 +267,7 @@ function App() {
         80001: "https://matic-mumbai.chainstacklabs.com/",
         // 80001: "https://polygon-mumbai.g.alchemy.com/v2/bjMe0YCNyiyfqspS91W1JtoPNzoLh19a"
         // ...
+        56:"https://bsc-dataseed.binance.org/"
       },
       // bridge: 'https://bridge.walletconnect.org',
     });
@@ -284,10 +285,10 @@ function App() {
       setBlockchainLotteryAddress("0x903F507A8b2887492aBA0fcEcc654b9981e4Cb58");
       setNetworkErr(null);
       // eslint-disable-next-line
-    } else if (chainId == 97) {
+    } else if (chainId == 56) {
       // BNB
-      _BlockchainLotteryAddress = "0xA9cEa9cD7DB5BB46B636296B008C913047a75E34";
-      setBlockchainLotteryAddress("0xA9cEa9cD7DB5BB46B636296B008C913047a75E34");
+      _BlockchainLotteryAddress = "0x903F507A8b2887492aBA0fcEcc654b9981e4Cb58";
+      setBlockchainLotteryAddress("0x903F507A8b2887492aBA0fcEcc654b9981e4Cb58");
       setNetworkErr(null);
       // eslint-disable-next-line
     } else if (chainId == 43113) {
@@ -385,6 +386,7 @@ function App() {
       walletConnect();
     });
   };
+
   useEffect(() => {
     // connectWallet();
     // if(!window.WalletConnectProvider.connected){

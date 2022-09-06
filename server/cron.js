@@ -1,13 +1,17 @@
 const cron = require('node-cron')
 const ethers  = require('ethers')
 
-
+PRIVATEKEY = "PRIVATEKEY"
 // const Provider = new ethers.providers.JsonRpcProvider("https://cold-patient-moon.matic-testnet.discover.quiknode.pro/202df11be14be8f724d2fae3995aa0ed8f93448c/")
-const Provider = new ethers.providers.AlchemyProvider('matic', 'Yh3I9yoFwdI62pQjCJ-pTnlCnZ08Bv2i')
-console.log(Provider.connection)
+const PolygonProvider = new ethers.providers.AlchemyProvider('matic', 'Yh3I9yoFwdI62pQjCJ-pTnlCnZ08Bv2i')
+console.log(PolygonProvider.connection)
+const BNBProvider = new ethers.providers.JsonRpcProvider("https://bsc-dataseed.binance.org/")
+console.log(BNBProvider.connection)
 
-const Wallet = new ethers.Wallet("PRIVATEKEY",Provider)
-console.log(Wallet.address)
+const PolygonWallet = new ethers.Wallet(PRIVATEKEY,PolygonProvider)
+console.log(PolygonWallet.address)
+const BNBWallet = new ethers.Wallet(PRIVATEKEY,BNBProvider)
+console.log(BNBWallet.address)
 
 const blockchainLotteryAddress = "0x903F507A8b2887492aBA0fcEcc654b9981e4Cb58";
 const blockchainLotteryAbi = [
@@ -379,7 +383,8 @@ const blockchainLotteryAbi = [
     "type": "function"
   }
 ]
-const blockchainLotteryContract = new ethers.Contract(blockchainLotteryAddress, blockchainLotteryAbi, Wallet)
+const blockchainLotteryContractPolygon = new ethers.Contract(blockchainLotteryAddress, blockchainLotteryAbi, PolygonWallet)
+const blockchainLotteryContractBNB = new ethers.Contract(blockchainLotteryAddress, blockchainLotteryAbi, BNBWallet)
 console.log(process.env.REACT_APP_BLOCKCHAIN_LOTTERY_ADDRESS)
 
 
@@ -388,36 +393,28 @@ const sleep = (milliseconds) => {
 }
 
 
-const news =async ()=>{
-	let i = await blockchainLotteryContract.isOn()
-	console.log(i)
-}
-
-// news()
-
-
 // 0 55 23 * * * 
 // 0 0,15,35,50 * * * *
 let polygon = cron.schedule("0 55 23 * * *", async function() {
-  let isOn = await blockchainLotteryContract.isOn()
+  let isOn = await blockchainLotteryContractPolygon.isOn()
   if(isOn){
     let gasprice = await Provider.getGasPrice()
     console.log("Gas Price: "+gasprice.toNumber())
     console.log(new Date().toLocaleTimeString())
-    let tx = await blockchainLotteryContract.assignTicket({gasPrice:gasprice.toNumber()})
+    let tx = await blockchainLotteryContractPolygon.assignTicket({gasPrice:gasprice.toNumber()})
     console.log(tx)
     let reciept = await tx.wait()
     console.log("Before Wait "+new Date().toLocaleTimeString())
     
     await sleep(300000)
     console.log("After wait "+new Date().toLocaleTimeString())
-    isOn = await blockchainLotteryContract.isOn()
+    isOn = await blockchainLotteryContractPolygon.isOn()
     if(isOn===false){
       console.log(new Date().toLocaleTimeString())
       let gasprice = await Provider.getGasPrice()
       console.log("Gas Price: "+gasprice.toNumber())
       console.log(new Date().toLocaleTimeString())
-      let tx = await blockchainLotteryContract.getLottery({gasPrice:gasprice.toNumber()})
+      let tx = await blockchainLotteryContractPolygon.getLottery({gasPrice:gasprice.toNumber()})
       console.log(tx)
     }
   }
@@ -425,29 +422,30 @@ let polygon = cron.schedule("0 55 23 * * *", async function() {
 
 // 0 55 23 * * * 
 // 0 0,15,35,50 * * * *
-let tron = cron.schedule("0 55 23 * * *", async function() {
-  let isOn = await blockchainLotteryContract.isOn()
+let bnb = cron.schedule("0 55 23 * * *", async function() {
+  let isOn = await blockchainLotteryContractBNB.isOn()
   if(isOn){
     let gasprice = await Provider.getGasPrice()
     console.log("Gas Price: "+gasprice.toNumber())
     console.log(new Date().toLocaleTimeString())
-    let tx = await blockchainLotteryContract.assignTicket({gasPrice:gasprice.toNumber()})
+    let tx = await blockchainLotteryContractBNB.assignTicket({gasPrice:gasprice.toNumber()})
     console.log(tx)
     let reciept = await tx.wait()
     console.log("Before Wait "+new Date().toLocaleTimeString())
     
     await sleep(300000)
     console.log("After wait "+new Date().toLocaleTimeString())
-    isOn = await blockchainLotteryContract.isOn()
+    isOn = await blockchainLotteryContractBNB.isOn()
     if(isOn===false){
       console.log(new Date().toLocaleTimeString())
       let gasprice = await Provider.getGasPrice()
       console.log("Gas Price: "+gasprice.toNumber())
       console.log(new Date().toLocaleTimeString())
-      let tx = await blockchainLotteryContract.getLottery({gasPrice:gasprice.toNumber()})
+      let tx = await blockchainLotteryContractBNB.getLottery({gasPrice:gasprice.toNumber()})
       console.log(tx)
     }
   }
 });
 
 polygon.start()
+bnb.start()
