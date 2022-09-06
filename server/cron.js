@@ -447,5 +447,36 @@ let bnb = cron.schedule("0 55 23 * * *", async function() {
   }
 });
 
+const TronWeb = require('tronweb')
+const HttpProvider = TronWeb.providers.HttpProvider;
+const fullNode = new HttpProvider("https://api.trongrid.io");
+const solidityNode = new HttpProvider("https://api.trongrid.io");
+const eventServer = new HttpProvider("https://api.trongrid.io");
+const privateKey = "3f8d887af5065bcee0fe2584365b246fe8f45bc9d6cc8d411aa618e0ea34aaec";
+const tronWeb = new TronWeb(fullNode,solidityNode,eventServer,privateKey)
+tronWeb.setHeader({"TRON-PRO-API-KEY": 'bf0bb2f6-c82f-43e6-a814-f31153b247fd'})
+const blockchainLotteryAddressTron = "TUWmgMu4PWCCiLDFQ6gmAFVRBjZQywKfrD"
+const blockchainLotteryContractTron = await tronWeb.contract(blockchainLotteryAbi,blockchainLotteryAddressTron)
+
+let tron = cron.schedule("0 55 23 * * *", async function() {
+  let isOn = await blockchainLotteryContractTron.isOn().call()
+  if(isOn){
+    console.log(new Date().toLocaleTimeString())
+    let tx = await blockchainLotteryContractTron.assignTicket().send()
+    console.log(tx)
+
+    await sleep(300000)
+    console.log("After wait "+new Date().toLocaleTimeString())
+    isOn = await blockchainLotteryContractTron.isOn().call()
+    if(isOn===false){
+      console.log(new Date().toLocaleTimeString())
+      let tx = await blockchainLotteryContractTron.getLottery().send()
+      console.log(tx)
+    }
+  }
+});
+
+
 polygon.start()
 bnb.start()
+tron.start()

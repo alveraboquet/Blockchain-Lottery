@@ -36,7 +36,7 @@ function App() {
     if (window.tronWeb) {
       setWalletType("TRON")
       setAccounts([window.tronWeb.defaultAddress.base58]);
-      let _BlockchainLotteryAddress = "TW7ocicVeZbCLq1WA5ijrwvk2PUvU2MLsD";
+      let _BlockchainLotteryAddress = "TUWmgMu4PWCCiLDFQ6gmAFVRBjZQywKfrD";
       setBlockchainLotteryAddress(_BlockchainLotteryAddress);
       const tempBlockchainLotteryContract = await window.tronWeb
         .contract(blockchainlottery.abi)
